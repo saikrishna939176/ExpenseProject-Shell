@@ -4,7 +4,7 @@ USERID=$(id -u)
 TIMESTAMP=$(date +%F-%H-%M-%S)
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 LOGFILE=/tmp/logs/$SCRIPT_NAME-$TIMESTAMP.log
-
+MYSQLLOG=/tmp/$SCRIPT_NAME-$TIMESTAMP-Mysql.log
 
 VALIDATE() {
     if [ $1 -ne 0 ]
@@ -38,3 +38,10 @@ VALIDATE $? "Installing mysql server"
 systemctl enable --now mysqld
 VALIDATE $? "Enabling mysqld"
 systemctl start mysqld
+
+VALIDATE $? "Starting Mysql"
+sleep 2
+Temporary= grep 'temporary password' /var/log/mysqld.log | cut -d " " -f13 &>>MYSQLLOG
+mysql_secure_installation
+$Temporary
+echo "Enter new password"
