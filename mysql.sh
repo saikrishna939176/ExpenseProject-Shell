@@ -43,10 +43,10 @@ VALIDATE $? "Starting Mysql"
 sleep 2
 Temporary=$(grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}') &>>$MYSQLLOG
 echo "Temp password: $Temporary"
-Temporary1="ExpenseApp@1"
-New_Pass="ExpenseApp@2"
+# Temporary1="ExpenseApp@1"
+New_Pass="ExpenseApp@1"
 sleep 5
-sudo mysql --connect-expired-password -u root -p"$Temporary1" -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${New_Pass}';"
+sudo mysql --connect-expired-password -u root -p"$Temporary" -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${New_Pass}';"
 # New_Pass="ExpenseApp@1"
 
 # sudo mysql_secure_installation <<-EOF
