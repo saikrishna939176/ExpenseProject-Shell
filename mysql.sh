@@ -42,17 +42,18 @@ systemctl start mysqld
 VALIDATE $? "Starting Mysql"
 sleep 2
 Temporary=$(grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}') &>>$MYSQLLOG
-New_Pass="ExpenseApp@1"
+echo "Temp password: $Temporary"
+# New_Pass="ExpenseApp@1"
 
-sudo mysql_secure_installation <<-EOF
-$Temporary
-n
-$New_Pass
-$New_Pass
-y
-y
-y
-y
-EOF
+# sudo mysql_secure_installation <<-EOF
+# $Temporary
+# n
+# $New_Pass
+# $New_Pass
+# y
+# y
+# y
+# y
+# EOF
 
 # Ensure you hit ENTER after the EOF line above so there is a blank line here
