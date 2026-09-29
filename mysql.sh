@@ -45,7 +45,7 @@ Temporary=$(grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}') &
 New_Pass="ExpenseApp@1"
 mysql_secure_installation <<EOF
 $Temporary
-y
+n
 $New_Pass
 $New_Pass
 y
