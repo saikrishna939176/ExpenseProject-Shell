@@ -10,6 +10,7 @@ VALIDATE() {
     if [ $1 -ne 0 ]
     then
         echo -e "$2 .. $R FAILURE $N"
+        exit 1
     else
         echo -e "$2 .. $G SUCCESS $N"
     fi
@@ -31,7 +32,7 @@ fi
 
 dnf update -y
 dnf install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm &>>$LOGFILE
-VALIDATE $? "Installing package is success"
+VALIDATE $? "Installing package"
 rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 &>>$LOGFILE
 dnf install -y mysql-community-server &>>$LOGFILE
 VALIDATE $? "Installing mysql server"
