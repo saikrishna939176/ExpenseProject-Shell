@@ -30,10 +30,10 @@ else
 fi 
 
 dnf update -y
-dnf install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm &>>LOGFILE
+dnf install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm &>>$LOGFILE
 VALIDATE $? "Installing package is success"
-rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 &>>LOGFILE
-dnf install -y mysql-community-server &>>LOGFILE
+rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 &>>$LOGFILE
+dnf install -y mysql-community-server &>>$LOGFILE
 VALIDATE $? "Installing mysql server"
 systemctl enable --now mysqld
 VALIDATE $? "Enabling mysqld"
@@ -41,7 +41,7 @@ systemctl start mysqld
 
 VALIDATE $? "Starting Mysql"
 sleep 2
-Temporary= grep 'temporary password' /var/log/mysqld.log | cut -d " " -f13 &>>MYSQLLOG
+Temporary= grep 'temporary password' /var/log/mysqld.log | cut -d " " -f13 &>>$MYSQLLOG
 mysql_secure_installation
 $Temporary
 echo "Enter new password"
