@@ -45,7 +45,7 @@ Temporary=$(grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}') &
 echo "Temp password: $Temporary"
 New_Pass="ExpenseApp@1"
 sleep 5
-echo -e "$Temporary\nn\n$New_Pass\n$New_Pass\ny\ny\ny\ny" | mysql_secure_installation &>>$MYSQLLOG
+sudo mysql --connect-expired-password -u root -p"$Temporary" -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${New_Pass}';"
 # New_Pass="ExpenseApp@1"
 
 # sudo mysql_secure_installation <<-EOF
