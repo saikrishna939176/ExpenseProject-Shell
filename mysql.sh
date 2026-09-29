@@ -41,8 +41,8 @@ systemctl start mysqld
 
 VALIDATE $? "Starting Mysql"
 sleep 2
-Temporary= $(grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}') &>>$MYSQLLOG
-New_Pass= "ExpenseApp@1"
+Temporary=$(grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}') &>>$MYSQLLOG
+New_Pass="ExpenseApp@1"
 mysql_secure_installation <<EOF
 $Temporary
 y
