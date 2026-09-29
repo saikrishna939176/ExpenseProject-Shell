@@ -43,6 +43,9 @@ VALIDATE $? "Starting Mysql"
 sleep 2
 Temporary=$(grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}') &>>$MYSQLLOG
 echo "Temp password: $Temporary"
+New_Pass="ExpenseApp@1"
+sleep 5
+echo -e "$Temporary\nn\n$New_Pass\n$New_Pass\ny\ny\ny\ny" | mysql_secure_installation &>>$MYSQLLOG
 # New_Pass="ExpenseApp@1"
 
 # sudo mysql_secure_installation <<-EOF
