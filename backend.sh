@@ -33,7 +33,7 @@ fi
 dnf install -y nodejs20 &>>$LOGFILE
 VALIDATE $? "Installing nodejs"
 
-id expense
+id expense &>>$LOGFILE
 if [ $? -ne 0 ]
 then
     useradd expense &>>$LOGFILE
@@ -60,7 +60,6 @@ rm -f /app/*
 unzip /tmp/backend.zip &>>$LOGFILE
 VALIDATE $? "Code is Unzip"
 npm install &>>$LOGFILE
-
 cp /home/ec2-user/ExpenseProject-Shell/backend.service /etc/systemd/system/backend.service
 VALIDATE $? "Copying the backend service file to system config"
 
