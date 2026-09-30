@@ -30,7 +30,7 @@ else
     echo "You are super access"
 fi
 
-dnf install nginx -y
+dnf install nginx -y &>>$LOGFILE
 VALIDATE $? "Installing Nginx"
 
 systemctl enable nginx
@@ -43,3 +43,10 @@ rm -rf /usr/share/nginx/html/*
 curl -o /tmp/frontend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip &>>$LOGFILE
 cd /usr/share/nginx/html
 unzip /tmp/frontend.zip
+VALIDATE $? "Code is Unzip"
+
+cp /home/ec2-user/ExpenseProject-Shell/expense.conf /etc/nginx/default.d/expense.conf
+VALIDATE $? "Copying the backend service file to system config"
+
+systemctl restart nginx
+VALIDATE $? "Restarting Nginx"
