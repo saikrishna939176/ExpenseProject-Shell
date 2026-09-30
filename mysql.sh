@@ -62,6 +62,6 @@ else
      CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'ExpenseApp@1';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
-    VALIDATE $? "Schema is processed"
 EOF
+    VALIDATE $? "Root Password Setup"
 fi
