@@ -52,7 +52,7 @@ sleep 5
 mysql -u root -pExpenseApp@1
 if [ $? -ne 0 ]
 then
-    sudo mysql --connect-expired-password -u root -p"$Temporary" -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${New_Pass}';"
+    sudo mysql --connect-expired-password -u root -p"$Temporary" -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${New_Pass}';" &>>MYSQLLOG
     VALIDATE $? "Root Password Setup"
 else
     echo -e "Mysql Root Password is already setup.. $Y SKIPPING $N"
