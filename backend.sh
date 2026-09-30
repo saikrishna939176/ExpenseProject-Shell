@@ -40,7 +40,7 @@ then
     VALIDATE $? "User Creation"
 
 else
-    echo -e "User is already created.. $YSKIPPING $N"
+    echo -e "User is already created.. $Y SKIPPING $N"
 fi
 cd /app &>>$LOGFILE
 # mkdir -p /app --> without error
@@ -51,7 +51,7 @@ then
     cd /app
 
 else
-    echo -e "Directory already created.. $YSKIPPING $N"
+    echo -e "Directory already created.. $Y SKIPPING $N"
     
 fi
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOGFILE
@@ -81,15 +81,15 @@ EOF
 if [ $? -ne 0 ]
 then
      echo "Mysql is not installed to connect DB"
-     dnf install mariadb105 -y
+     dnf install mariadb105 -y &>>$LOGFILE
      VALIDATE $? "Install Mysql Client"
 else
-    echo "Mysql is already installed ... $Y SKIPPING $N"
+    echo -e "Mysql is already installed ... $Y SKIPPING $N"
 fi
 
 sleep 3
 echo "Creating database using schema.."
-mysql -h 172.31.18.69 -uroot -pExpenseApp@1 < /schema/backend.sql
+mysql -h 172.31.18.69 -uroot -pExpenseApp@1 < schema/backend.sql
 VALIDATE $? "Schema installed"
 
 systemctl restart backend
