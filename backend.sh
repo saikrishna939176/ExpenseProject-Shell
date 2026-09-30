@@ -41,7 +41,7 @@ then
 
 else
     echo "User is already created.. $YSKIPPING $N"
-
+fi
 mkdir /app
 # mkdir -p /app --> without error
 if [ $? -ne 0 ]
@@ -51,8 +51,7 @@ then
 
 else
     echo "Directory already created.. $YSKIPPING $N"
-
-
+fi
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
 
 cd /app
