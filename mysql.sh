@@ -3,7 +3,7 @@
 USERID=$(id -u)
 TIMESTAMP=$(date +%F-%H-%M-%S)
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
-LOGFILE=/tmp/logs/$SCRIPT_NAME-$TIMESTAMP.log
+LOGFILE=/tmp/$SCRIPT_NAME-$TIMESTAMP.log
 MYSQLLOG=/tmp/$SCRIPT_NAME-$TIMESTAMP-Mysql.log
 
 VALIDATE() {
@@ -30,24 +30,35 @@ else
     echo "You are super access"
 fi 
 
-dnf update -y
+dnf update -y &>>$LOGFILE
+VALIDATE $? "Latest packages updated"
 dnf install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm &>>$LOGFILE
 VALIDATE $? "Installing package"
 rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 &>>$LOGFILE
 dnf install -y mysql-community-server &>>$LOGFILE
 VALIDATE $? "Installing mysql server"
+
 systemctl enable --now mysqld
 VALIDATE $? "Enabling mysqld"
 systemctl start mysqld
-
 VALIDATE $? "Starting Mysql"
 sleep 2
 Temporary=$(grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}') &>>$MYSQLLOG
 echo "Temp password: $Temporary"
-# Temporary1="ExpenseApp@1"
+
 New_Pass="ExpenseApp@1"
+echo "New Password: $New_Pass" 
 sleep 5
-sudo mysql --connect-expired-password -u root -p"$Temporary" -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${New_Pass}';"
+mysql -u root -pExpenseApp@1
+if [ $? -ne 0 ]
+then
+    sudo mysql --connect-expired-password -u root -p"$Temporary" -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${New_Pass}';"
+    VALIDATE $? "Root Password Setup"
+else
+    echo -e "Mysql Root Password is already setup.. $Y SKIPPING $N"
+    exit
+fi
+
 # New_Pass="ExpenseApp@1"
 
 # sudo mysql_secure_installation <<-EOF
