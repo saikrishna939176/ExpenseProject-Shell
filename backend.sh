@@ -52,11 +52,11 @@ then
 
 else
     echo -e "Directory already created.. $YSKIPPING $N"
-    echo "show the current ::$PWD" &>>$LOGFILE
+    
 fi
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOGFILE
 
-rm -f /app/* &>>$LOGFILE
+rm -rf /app/* &>>$LOGFILE
 unzip /tmp/backend.zip &>>$LOGFILE
 VALIDATE $? "Code is Unzip"
 npm install &>>$LOGFILE
