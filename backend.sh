@@ -42,7 +42,7 @@ then
 else
     echo "User is already created.. $YSKIPPING $N"
 fi
-mkdir /app
+mkdir /app &>>LOGFILE
 # mkdir -p /app --> without error
 if [ $? -ne 0 ]
 then
