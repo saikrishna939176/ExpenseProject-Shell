@@ -42,7 +42,7 @@ then
 else
     echo -e "User is already created.. $YSKIPPING $N"
 fi
-mkdir /app &>>$LOGFILE
+cd /app &>>$LOGFILE
 # mkdir -p /app --> without error
 if [ $? -ne 0 ]
 then
@@ -54,7 +54,6 @@ else
 fi
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOGFILE
 
-cd /app
 rm -f /app/* 
 unzip /tmp/backend.zip &>>$LOGFILE
 VALIDATE $? "Code is Unzip"
