@@ -78,7 +78,6 @@ mysql -u root -p{$New_Pass} <<EOF &>>$LOGFILE
 exit
 EOF
 
-sleep 3
 if [ $? -ne 0 ]
 then
      echo "Mysql is not installed to connect DB"
