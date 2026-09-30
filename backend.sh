@@ -40,9 +40,9 @@ then
     VALIDATE $? "User Creation"
 
 else
-    echo "User is already created.. $YSKIPPING $N"
+    echo -e "User is already created.. $YSKIPPING $N"
 fi
-mkdir /app &>>LOGFILE
+mkdir /app &>>$LOGFILE
 # mkdir -p /app --> without error
 if [ $? -ne 0 ]
 then
