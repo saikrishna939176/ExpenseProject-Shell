@@ -74,9 +74,10 @@ VALIDATE $? "Enable backend"
 
 #echo "Install MysqlClient to use mysqlDB"
 New_Pass="ExpenseApp@1"
-mysql -u root -p{$New_Pass} >>EOF
+mysql -u root -p{$New_Pass} <<EOF &>>$LOGFILE
 exit
 EOF
+
 sleep 3
 if [ $? -ne 0 ]
 then
