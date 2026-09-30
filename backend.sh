@@ -36,7 +36,7 @@ VALIDATE $? "Installing nodejs"
 id expense
 if [ $? -ne 0 ]
 then
-    useradd expense
+    useradd expense &>>$LOGFILE
     VALIDATE $? "User Creation"
 
 else
@@ -46,7 +46,7 @@ mkdir /app
 # mkdir -p /app --> without error
 if [ $? -ne 0 ]
 then
-    mkdir /app
+    mkdir /app &>>$LOGFILE
     VALIDATE $? "Dir creation"
 
 else
@@ -56,7 +56,41 @@ else
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
 
 cd /app
-rm -f /app/*
-unzip /tmp/backend.zip
+rm -f /app/* 
+unzip /tmp/backend.zip &>>$LOGFILE
 VALIDATE $? "Code is Unzip"
-npm install
+npm install &>>$LOGFILE
+
+cp /home/ec2-user/ExpenseProject-Shell/backend.service /etc/systemd/system/backend.service
+VALIDATE $? "Copying the backend service file to system config"
+
+systemctl daemon-reload
+VALIDATE $? "Reload Daemon"
+
+systemctl start backend
+VALIDATE $? "start backend"
+
+systemctl enable backend
+VALIDATE $? "Enable backend"
+
+#echo "Install MysqlClient to use mysqlDB"
+New_Pass="ExpenseApp@1"
+mysql -u root -p{$New_Pass} >>EOF
+exit
+EOF
+if [ $? -ne 0 ]
+then
+     echo "Mysql is not installed to connect DB"
+     dnf install mariadb105 -y
+     VALIDATE $? "Install Mysql Client"
+else
+    echo "Mysql is already installed ... $Y SKIPPING $N"
+fi
+
+sleep 3
+echo "Creating database using schema.."
+mysql -h 172.31.22.135 -uroot -pExpenseApp@1 < /schema/backend.sql
+VALIDATE $? "Schema installed"
+
+systemctl restart backend
+VALIDATE $? "Restarting backend"
