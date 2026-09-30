@@ -52,7 +52,7 @@ then
 else
     echo "Directory already created.. $YSKIPPING $N"
 fi
-curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOGFILE
 
 cd /app
 rm -f /app/* 
@@ -65,7 +65,7 @@ VALIDATE $? "Copying the backend service file to system config"
 systemctl daemon-reload
 VALIDATE $? "Reload Daemon"
 
-systemctl start backend
+systemctl start backend &>>$LOGFILE
 VALIDATE $? "start backend"
 
 systemctl enable backend
@@ -76,6 +76,7 @@ New_Pass="ExpenseApp@1"
 mysql -u root -p{$New_Pass} >>EOF
 exit
 EOF
+sleep 3
 if [ $? -ne 0 ]
 then
      echo "Mysql is not installed to connect DB"
