@@ -58,7 +58,7 @@ then
     VALIDATE $? "Root Password Setup"
 else
     echo -e "Mysql Root Password is already setup.. $Y SKIPPING $N"
-    mysql -u root -p${New_Pass} <<EOF
+    mysql -u root -p${New_Pass} <<EOF &>>$MYSQLLOG
      CREATE USER 'root'@'%' IDENTIFIED BY 'ExpenseApp@1';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
