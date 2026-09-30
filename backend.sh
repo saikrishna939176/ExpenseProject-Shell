@@ -48,6 +48,7 @@ if [ $? -ne 0 ]
 then
     mkdir /app &>>$LOGFILE
     VALIDATE $? "Dir creation"
+    cd /app
 
 else
     echo "Directory already created.. $YSKIPPING $N"
