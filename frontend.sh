@@ -33,7 +33,7 @@ fi
 dnf install nginx -y &>>$LOGFILE
 VALIDATE $? "Installing Nginx"
 
-systemctl enable nginx
+systemctl enable nginx &>>$LOGFILE
 VALIDATE $? "Enable Nginx"
 systemctl start nginx
 VALIDATE $? "Start Nginx"
@@ -42,7 +42,7 @@ rm -rf /usr/share/nginx/html/*
 
 curl -o /tmp/frontend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip &>>$LOGFILE
 cd /usr/share/nginx/html
-unzip /tmp/frontend.zip
+unzip /tmp/frontend.zip &>>$LOGFILE
 VALIDATE $? "Code is Unzip"
 
 cp /home/ec2-user/ExpenseProject-Shell/expense.conf /etc/nginx/default.d/expense.conf
