@@ -49,16 +49,16 @@ echo "Temp password: $Temporary"
 New_Pass="ExpenseApp@1"
 echo "New Password: $New_Pass" 
 sleep 5
-mysql -u root -pExpenseApp@1
+mysql -u root -pExpenseApp@1 << EOF
+exit
+EOF
 if [ $? -ne 0 ]
 then
     sudo mysql --connect-expired-password -u root -p"$Temporary" -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${New_Pass}';" &>>MYSQLLOG
     VALIDATE $? "Root Password Setup"
 else
     echo -e "Mysql Root Password is already setup.. $Y SKIPPING $N"
-    exit
 fi
-
 # New_Pass="ExpenseApp@1"
 
 # sudo mysql_secure_installation <<-EOF
