@@ -94,3 +94,5 @@ VALIDATE $? "Schema installed"
 
 systemctl restart backend
 VALIDATE $? "Restarting backend"
+
+systemctl status backend
