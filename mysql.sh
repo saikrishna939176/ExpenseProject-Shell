@@ -63,20 +63,5 @@ else
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 EOF  
+
 fi
-
-
-# New_Pass="ExpenseApp@1"
-
-# sudo mysql_secure_installation <<-EOF
-# $Temporary
-# n
-# $New_Pass
-# $New_Pass
-# y
-# y
-# y
-# y
-# EOF
-
-# Ensure you hit ENTER after the EOF line above so there is a blank line here
