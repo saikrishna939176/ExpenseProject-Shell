@@ -49,7 +49,7 @@ echo "Temp password: $Temporary"
 New_Pass="ExpenseApp@1"
 echo "New Password: $New_Pass" 
 sleep 5
-mysql -u root -pExpenseApp@1 << EOF
+mysql -u root -p${New_Pass} << EOF
 exit
 EOF
 if [ $? -ne 0 ]
@@ -58,6 +58,12 @@ then
     VALIDATE $? "Root Password Setup"
 else
     echo -e "Mysql Root Password is already setup.. $Y SKIPPING $N"
+    mysql -u root -p${New_Pass} << EOF &>>$LOGFILE
+    CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'ExpenseApp@1';
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+    EOF
+    
 fi
 # New_Pass="ExpenseApp@1"
 
