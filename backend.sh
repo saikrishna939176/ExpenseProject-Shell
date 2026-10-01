@@ -75,7 +75,7 @@ VALIDATE $? "Enable backend"
 
 #echo "Install MysqlClient to use mysqlDB"
 New_Pass="ExpenseApp@1"
-mysql -h db.sharada.store -uroot -p{$New_Pass} <<EOF &>>$LOGFILE
+mysql -h db.sharada.store -uroot -p${New_Pass} <<EOF &>>$LOGFILE
 exit
 EOF
 
@@ -90,7 +90,7 @@ fi
 
 sleep 3
 echo "Creating database using schema.."
-mysql -h db.sharada.store -uroot -p{$New_Pass} < schema/backend.sql
+mysql -h db.sharada.store -uroot -p${New_Pass} < schema/backend.sql
 VALIDATE $? "Schema installed"
 
 systemctl restart backend
