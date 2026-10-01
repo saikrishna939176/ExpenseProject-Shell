@@ -89,7 +89,7 @@ fi
 
 sleep 3
 echo "Creating database using schema.."
-mysql -h 172.31.18.69 -uroot -pExpenseApp@1 < schema/backend.sql
+mysql -h db.sharada.store -uroot -pExpenseApp@1 < schema/backend.sql
 VALIDATE $? "Schema installed"
 
 systemctl restart backend
